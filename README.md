@@ -1,4 +1,4 @@
-# Together AI Testsr
+# Together AI Tester
 
 Testing out the Together AI platform interfaces.
 
