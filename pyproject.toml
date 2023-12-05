@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "togetherai"
+version = "0.1.0"
+description = "Testing out the Together AI platform interfaces."
+authors = ["Gil Fernandes <gil.fernandes@onepointltd.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+python-dotenv = "^1.0.0"
+sseclient-py = "^1.8.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.11.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
