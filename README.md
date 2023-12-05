@@ -2,7 +2,7 @@
 
 Testing out the Together AI platform interfaces.
 
-This project has some simple examples on how to use models on (https://www.together.ai/)[together.ai]
+This project has some simple examples on how to use models on [together.ai](https://www.together.ai/)
 
 ## Installation instructions
 
