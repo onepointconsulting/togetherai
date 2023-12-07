@@ -7,6 +7,7 @@ import sseclient
 url = "https://api.together.xyz/inference"
 model = "togethercomputer/llama-2-70b-chat"
 
+
 def create_prompt(code):
     return f""" 
 # Task Description: 
@@ -59,28 +60,41 @@ def save_text_to_file(text):
 ```
 
 # Instruction
-Can you please add comments to all python functions using the reStructuredText Docstring Format for the following code
+Can you please add comments to all python functions using the reStructuredText Docstring Format for the following code.
 ```python
 {code}
 ```
 """
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     code = """
 
-def event_enhancement(events_list: List[str], urls: str) -> str:
-    urls_list = json.loads(urls)
-    url_map = {event["id"]: event for event in urls_list}
-    for event in events_list:
-        url_info = url_map.get(event["id"])
-        if url_info is not None:
-            event["url"] = url_info["url"]
-    return json.dumps(events_list)
+import comment_generator.backend.comment_files as comment
+from comment_generator.configuration.config import cfg
+import pathlib
+
+def key_model(model):
+    api_key = input("Give API key or put it in the .env file: ")
+    if api_key == "":
+        print("Please don't forget to put the key in the .env file")
+    else:
+        if model == 'chat-gpt':
+            cfg.openai_api_key = api_key
+        else:
+            cfg.together_api_key = api_key
 
 
-def extract_event_ids(events_list: List[dict]) -> List[int]:
-    return [event["id"] for event in events_list]
+src_file_path = input("Enter code directory to be commented: ")
+src_file_path = pathlib.Path(src_file_path.strip("\"")).as_posix() 
+#pathlib.Path("C:\\Users\\Sayalee\\Projects\\langchain\\image_generator_bot").as_posix()
+dest_file_path = input("Where do you want the commented code directory to be? please give the path of the root folder: ")
+dest_file_path = pathlib.Path(dest_file_path.strip("\\"")).as_posix()
+#pathlib.Path(r"C:\\Users\\Sayalee\\Projects\\commented_projects\\image_generator_bot").as_posix()
+
+models = "\\n".join(cfg.updated_model_list)
+model_to_use = input(models + "\\n chat-gpt" + "\\n choose the model you want to use: ")
+
 
 """
 
@@ -88,18 +102,26 @@ def extract_event_ids(events_list: List[dict]) -> List[int]:
 
     print(f"Model: {model}")
     print(f"Prompt: {repr(prompt)}")
-    print("Repsonse:")
+    print("Response:")
     print()
 
     payload = {
-        "model": model,
-        "prompt": prompt,
-        "max_tokens": 1024,
-        "temperature": 0.7,
+        "model": "togethercomputer/llama-2-70b-chat",
+        "max_tokens": 512,
+        "prompt": create_prompt(code),
+        "request_type": "language-model-inference",
+        "temperature": 0,
         "top_p": 0.7,
         "top_k": 50,
         "repetition_penalty": 1,
         "stream_tokens": True,
+        "stop": ["[/INST]", "</s>"],
+        "negative_prompt": "",
+        "sessionKey": "2e59071178ae2b05e68015136fb8045df30c3680",
+        "type": "chat",
+        "prompt_format_string": "[INST]  {prompt}\n [/INST]",
+        "safety_model": "",
+        "repetitive_penalty": 1,
     }
     headers = {
         "accept": "application/json",
@@ -117,4 +139,4 @@ def extract_event_ids(events_list: List[dict]) -> List[int]:
 
         partial_result = json.loads(event.data)
         token = partial_result["choices"][0]["text"]
-        print(token, end="", flush=True)     
+        print(token, end="", flush=True)
