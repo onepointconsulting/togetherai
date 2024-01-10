@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.12"
 python-dotenv = "^1.0.0"
 sseclient-py = "^1.8.0"
+openai = "^1.7.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.11.0"

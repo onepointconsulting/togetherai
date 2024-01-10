@@ -117,7 +117,7 @@ model_to_use = input(models + "\\n chat-gpt" + "\\n choose the model you want to
         "stream_tokens": True,
         "stop": ["[/INST]", "</s>"],
         "negative_prompt": "",
-        "sessionKey": "2e59071178ae2b05e68015136fb8045df30c3680",
+        # "sessionKey": "2e59071178ae2b05e68015136fb8045df30c3680",
         "type": "chat",
         "prompt_format_string": "[INST]  {prompt}\n [/INST]",
         "safety_model": "",
